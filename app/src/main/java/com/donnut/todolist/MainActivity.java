@@ -1,5 +1,6 @@
 package com.donnut.todolist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -33,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         showNotes();
+        buttonAddNote.setOnClickListener(view -> {
+            Intent intent = AddNoteActivity.newIntent(MainActivity.this);
+            startActivity(intent);
+        });
     }
 
     private void initViews() {
@@ -49,13 +54,13 @@ public class MainActivity extends AppCompatActivity {
             int colorRes;
             switch (note.getPriority()) {
                 case 0:
-                    colorRes = android.R.color.holo_green_light;
+                    colorRes = android.R.color.holo_green_dark;
                     break;
                 case 1:
-                    colorRes = android.R.color.holo_orange_light;
+                    colorRes = android.R.color.holo_orange_dark;
                     break;
                 default:
-                    colorRes = android.R.color.holo_red_light;
+                    colorRes = android.R.color.holo_red_dark;
             }
             int color = ContextCompat.getColor(this, colorRes);
             textViewNote.setBackgroundColor(color);
