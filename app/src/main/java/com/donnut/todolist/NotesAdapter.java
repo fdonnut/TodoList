@@ -13,51 +13,69 @@ import java.util.ArrayList;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
 
-   private ArrayList<Note> notes = new ArrayList<>();
+    private ArrayList<Note> notes = new ArrayList<>();
+    private OnNoteClickListener onNoteClickListener;
 
-   public void setNotes(ArrayList<Note> notes) {
-      this.notes = notes;
-      notifyDataSetChanged();
-   }
+    public void setOnNoteClickListener(OnNoteClickListener onNoteClickListener) {
+        this.onNoteClickListener = onNoteClickListener;
+    }
 
-   @NonNull
-   @Override
-   public NotesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item, parent, false);
-      return new NotesViewHolder(view);
-   }
+    public void setNotes(ArrayList<Note> notes) {
+        this.notes = notes;
+        notifyDataSetChanged();
+    }
 
-   @Override
-   public void onBindViewHolder(@NonNull NotesViewHolder viewHolder, int position) {
-      Note note = notes.get(position);
-      viewHolder.textViewNote.setText(note.getText());
+    @NonNull
+    @Override
+    public NotesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item, parent, false);
+        return new NotesViewHolder(view);
+    }
 
-      int colorRes;
-      switch (note.getPriority()) {
-         case 0:
-            colorRes = android.R.color.holo_green_dark;
-            break;
-         case 1:
-            colorRes = android.R.color.holo_orange_dark;
-            break;
-         default:
-            colorRes = android.R.color.holo_red_dark;
-      }
-      int color = ContextCompat.getColor(viewHolder.itemView.getContext(), colorRes);
-      viewHolder.textViewNote.setBackgroundColor(color);
-   }
+    @Override
+    public void onBindViewHolder(@NonNull NotesViewHolder viewHolder, int position) {
+        Note note = notes.get(position);
+        viewHolder.textViewNote.setText(note.getText());
 
-   @Override
-   public int getItemCount() {
-      return notes.size();
-   }
+        int colorRes;
+        switch (note.getPriority()) {
+            case 0:
+                colorRes = android.R.color.holo_green_dark;
+                break;
+            case 1:
+                colorRes = android.R.color.holo_orange_dark;
+                break;
+            default:
+                colorRes = android.R.color.holo_red_dark;
+        }
+        int color = ContextCompat.getColor(viewHolder.itemView.getContext(), colorRes);
+        viewHolder.textViewNote.setBackgroundColor(color);
 
-   class NotesViewHolder extends RecyclerView.ViewHolder {
-      private TextView textViewNote;
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onNoteClickListener != null) {
+                    onNoteClickListener.onNoteClick(note);
+                }
+            }
+        });
+    }
 
-      public NotesViewHolder(@NonNull View itemView) {
-         super(itemView);
-         textViewNote = itemView.findViewById(R.id.textViewNote);
-      }
-   }
+    @Override
+    public int getItemCount() {
+        return notes.size();
+    }
+
+    class NotesViewHolder extends RecyclerView.ViewHolder {
+        private TextView textViewNote;
+
+        public NotesViewHolder(@NonNull View itemView) {
+            super(itemView);
+            textViewNote = itemView.findViewById(R.id.textViewNote);
+        }
+    }
+
+    interface OnNoteClickListener {
+        void onNoteClick(Note note);
+    }
 }
