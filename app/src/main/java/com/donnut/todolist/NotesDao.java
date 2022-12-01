@@ -1,5 +1,6 @@
 package com.donnut.todolist;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -11,7 +12,7 @@ import java.util.List;
 interface NotesDao {
 
     @Query("SELECT * FROM notes")
-    List<Note> getNotes();
+    LiveData<List<Note>> getNotes();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addNote(Note note);
