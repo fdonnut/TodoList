@@ -1,9 +1,12 @@
 package com.donnut.todolist;
 
-import java.util.ArrayList;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "notes")
 class Note {
 
+   @PrimaryKey(autoGenerate = true)
    private int id;
    private String text;
    private int priority;
