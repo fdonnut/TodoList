@@ -30,21 +30,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        viewModel.getCount().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer count) {
-                Toast.makeText(MainActivity.this, String.valueOf(count), Toast.LENGTH_SHORT).show();
-            }
-        });
         initViews();
 
         notesAdapter = new NotesAdapter();
-        notesAdapter.setOnNoteClickListener(new NotesAdapter.OnNoteClickListener() {
-            @Override
-            public void onNoteClick(Note note) {
-                viewModel.showCount();
-            }
-        });
         recyclerViewNotes.setAdapter(notesAdapter);
 
         viewModel.getNotes().observe(this, new Observer<List<Note>>() {
