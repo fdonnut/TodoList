@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-class MainViewModel extends AndroidViewModel {
+public class MainViewModel extends AndroidViewModel {
 
     private NoteDatabase noteDatabase;
 
